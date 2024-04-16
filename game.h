@@ -1,7 +1,7 @@
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
-#define opponent = 2;
-#define player = 1;
+#define opponent = 2
+#define player = 1
 class Figura
 {
 public:

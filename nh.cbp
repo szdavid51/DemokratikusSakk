@@ -32,7 +32,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+<<<<<<< HEAD
 		<Unit filename="game.h" />
+=======
+>>>>>>> 459d86571a54378ce7625686b998b6e47ab7232c
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
