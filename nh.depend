@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1713250525 source:c:\users\david\documents\demokratikussakk\main.cpp
+	<iostream>
+	"game.h"
+
+1713250559 c:\users\david\documents\demokratikussakk\game.h
+
