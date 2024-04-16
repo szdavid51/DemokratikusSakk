@@ -4,6 +4,7 @@
 using namespace std;
 //i made this change on github
 //I made this change on laptop
+//ezzel testelem a fetchet
 int main()
 {
     Game game;
