@@ -115,14 +115,59 @@ class Sakktabla
     {
     }
 };
+enum GameState{
+Menu,
+StartJatek,
+Jatek,
+ExitProgram,
+ExitJatek,
+};
 class Game
 {
     std::istream& in;
     std::ostream& out; //Stream amire karakteresen kiirja a kimeneteket
     Sakktabla s;
     int cp;
+    GameState state;
 public:
     Game(std::istream& in = std::cin,std::ostream& out = std::cout) : in(in),out(out){} //Alapertelmezetten a standard kimenetre akarunk irni
+    void start()
+    {
+        state = Menu;
+        this->gameloop();
+    }
+    void gameloop()
+    {
+        while(state!=ExitProgram)
+        {
+            switch(state)
+            {
+            case Menu:
+                this->menu();
+                break;
+            case StartJatek:
+                cp = player1;
+                state = Jatek;
+                break;
+            case Jatek:
+                this->jatek();
+                break;
+            case ExitJatek:
+                ~s();
+                s();
+                state = Menu;
+                break;
+            default:
+                break;
+            }
+        }
+
+    }
+    void jatek()
+    {
+        this->print();
+        this->listenToInput();
+    }
     void print()
     {
         s.print(out);
@@ -132,33 +177,40 @@ public:
         out<<"Player"<<cp<<" ,kerek input-ot: ";
         char a,b;
         in>>a;
-        if(a == '0') this->exit();
-        else
-        {
-            if(a<'a' || a >'h')
-            {
-                out<<"Hibas input! Helyes formatum pl. e2";
+        if(a == '0') return this->exit();
+        else{
+            if(a<'a' || a >'h'){
+                out<<"Hibas input! Helyes formatum pelda: e2";
                 return this->listenToInput();
             }
-            else
-            {
+            else{
                 in>>b;
                 if(b<'1' || b>'8')
                 {
-                    out<<"Hibas input! Helyes formatum pl. e2";
+                    out<<"Hibas input! Helyes formatum pelda: e2";
                     return this->listenToInput();
                 }
-                else
-                {
+                else{
                     if(!s.move(int(b-48), int(a-96), cp)){
                         out<<"Hibas input! Nem valasztottal jo figurat!";
                         return this->listenToInput();
+                    }
+                    else{
+                        if(cp == player1) //switch players
+                            cp = player2;
+                        else cp = player1;
+                        return;
                     }
                 }
             }
         }
     }
-    void exit();
+    void exit(){
+        if(state == Jatek)
+            state = ExitJatek;
+        if(state==Menu)
+            state = ExitProgram;
+    }
     void test(){out<<"yes";}
 };
 
