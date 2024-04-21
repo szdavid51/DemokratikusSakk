@@ -2,6 +2,7 @@
 #define GAME_H_INCLUDED
 #define player2 2
 #define player1 1
+#include <stdlib.h>
 template<typename T>
 class DinamikusTomb {
 private:
@@ -43,7 +44,10 @@ public:
         return tomb[index];
     }
 };
-
+struct pos{
+int s,o;
+};
+class Sakktabla;
 class Figura
 {
     protected:
@@ -63,6 +67,12 @@ public:
     int getp()const{return p;}
     const char* getname()const{return name;}
     bool isdead()const{return dead;}
+    bool move(Sakktabla& s){
+        //call function to get possible moves
+        //choose random move and return true
+        //return false if no moves can be made
+    }
+    virtual DinamikusTomb<pos> getPossibleMoves(Sakktabla& s) = 0;
 };
 class Gyalog : public Figura
 {
@@ -76,6 +86,11 @@ public:
             f[i] = new Gyalog(2,i - kezdetIndex + 1,player1);
         for(size_t i = kezdetIndex + 8; i<=kezdetIndex + 15; i++)
             f[i] = new Gyalog(kezdetIndex + 7,i - kezdetIndex - 7, player2);
+    }
+    DinamikusTomb<pos> getPossibleMoves(Sakktabla& s)
+    {
+        //determines valid moves and adds valid positions it can move to to a dinamic array
+        //returns dinamic array
     }
 };
 class Sakktabla
@@ -113,6 +128,12 @@ class Sakktabla
     }
     bool move(int s, int o, int cp)
     {
+        //if there is a piece that can move and it belongs to cp player then make that piece move and if succesful return true
+        //else return false
+    }
+    void reset()
+    {
+
     }
 };
 enum GameState{
@@ -153,20 +174,30 @@ public:
                 this->jatek();
                 break;
             case ExitJatek:
-                ~s();
-                s();
+                s.reset();
                 state = Menu;
                 break;
             default:
                 break;
             }
         }
-
     }
     void jatek()
     {
+        system("cls");
         this->print();
         this->listenToInput();
+    }
+    void menu()
+    {
+        system("cls");
+        out<<"Demokratikus sakk ascii art\n1.Start Game\n2.Exit";
+        int c;
+        in>>c;
+        if(c==1)
+            state= StartJatek;
+        if(c==2)
+            this->exit();
     }
     void print()
     {
@@ -174,7 +205,7 @@ public:
     }
     void listenToInput()
     {
-        out<<"Player"<<cp<<" ,kerek input-ot: ";
+        out<<"\nPlayer"<<cp<<" ,kerek input-ot: ";
         char a,b;
         in>>a;
         if(a == '0') return this->exit();
